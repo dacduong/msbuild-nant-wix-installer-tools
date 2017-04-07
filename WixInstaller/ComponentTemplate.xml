@@ -1,0 +1,3 @@
+﻿  <Component Id="{0}" Guid="{1}" Directory="{6}" Feature="{2}">{3}
+    <File Id="{4}" Source="{5}" KeyPath="yes" DefaultVersion="$(var.MainVersion)" />
+  </Component>

@@ -1,0 +1,27 @@
+	<target name="{folderName}" description="{folderName}" depends="{preBuildTarget}{depends}">
+		<echo message="#### {folderName} ####"/>
+		<xmlpeek file="${path.root}\${src.dir}\{folderPath}\{projectFile}" xpath="//ns:AssemblyName" property="project.assembly">
+			<namespaces>
+				<namespace prefix="ns" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
+			</namespaces>
+		</xmlpeek>
+		<exec program="${msbuildpath}" commandline="${path.root}\${src.dir}\{folderPath}\{projectFile} ${build.config} ${reference.path}" failonerror="${project.failonerror}" resultproperty="build.result" />
+		<choose>
+			<when test="${build.result!='0'}">
+				<property name="build.fail" value="${build.fail}, {folderName}"/>
+			</when>
+			<otherwise>
+				<echo message="## source code changed ##"/>
+				<copy todir="${path.root}\${src.dir}\{folderPath}\bin\archive">
+					<fileset basedir="${path.root}\${src.dir}\{folderPath}\bin\build">
+						<include name="${project.assembly}.*"/>
+					</fileset>
+				</copy>
+				<copy todir="${outputDir}">
+					<fileset basedir="${path.root}\${src.dir}\{folderPath}\bin\archive">
+						<include name="${project.assembly}.*"/>
+					</fileset>
+				</copy>
+			</otherwise>
+		</choose>
+	</target>

@@ -1,0 +1,8 @@
+﻿	<target name="build" description="Build all project" depends="{depends}">
+		<if test="${build.fail!=''}">
+			<echo message="#### Projects failed to build ####"/>
+			<echo message="${build.fail}"/>
+			<fail/>
+		</if>
+		<echo message="#### Finish Projects Built Target ####"/>
+	</target>
